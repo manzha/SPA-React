@@ -1,24 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import UsersForm from "./Users/UsersForm";
+import UsersPage from "./Users/UsersPage";
+import UserEdit from "./Users/UserEdit";
+import { Route, Routes } from "react-router-dom";
+import { useSelector } from "react-redux";
+import Header from "./Header";
+import NewsPage from "./News/NewsPage";
+import NewsDetail from "./News/NewsDetail";
 
 function App() {
+  const users = useSelector((state: any) => state.users);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header></Header>
+      <Routes>
+        <Route
+          path="/"
+          element={UsersPage({
+            users: users,
+          })}
+        />
+        <Route
+          path="/Users"
+          element={UsersPage({
+            users: users,
+          })}
+        />
+        <Route
+          path="/Users/Add"
+          element={<UsersForm initialData={{ id: "", name: "", email: "" }} />}
+        />
+        <Route path="/User/:userId" element={<UserEdit />} />
+        <Route path="/News" element={<NewsPage />} />
+        <Route path="/News/Details" element={<NewsDetail />} />
+      </Routes>
     </div>
   );
 }
